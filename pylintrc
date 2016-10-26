@@ -1,0 +1,40 @@
+[DESIGN]
+max-args=8
+min-public-methods=0
+max-public-methods=100
+
+[TYPECHECK]
+ignored-classes=pytest
+
+[MESSAGES CONTROL]
+disable =
+	locally-disabled,
+	fixme,
+	missing-docstring,
+	duplicate-code,
+	no-self-use,
+	no-init,
+	broad-except,
+	bad-continuation,
+	superfluous-parens,
+	bad-whitespace,
+
+[REPORTS]
+msg-template={symbol} -- {path}:{line}({obj}): {msg}
+include-ids=yes
+
+[FORMAT]
+max-line-length=120
+
+[BASIC]
+# List of builtins function names that should not be used, separated by a comma
+bad-functions=
+
+# Regexp for module-level variables
+const-rgx=[a-zA-Z_][a-zA-Z0-9_]{1,30}$
+
+# Regular expression which should only match correct argument names
+argument-rgx=[a-z_][a-z0-9_]{1,30}$
+
+# Regular expression which should only match correct variable names
+variable-rgx=[a-z_][a-z0-9_]{1,30}$

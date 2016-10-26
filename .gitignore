@@ -1,0 +1,11 @@
+/pkg
+/src
+/build
+/dist
+/valkit.egg-info
+/.tox
+/.cache
+/.coverage
+/valkit-*.tar.gz
+*.pyc
+*.swp
