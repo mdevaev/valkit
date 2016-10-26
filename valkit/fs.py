@@ -5,11 +5,11 @@ from . import _tools
 
 # =====
 @_tools.add_lambda_maker
-def valid_path(arg, expanduser=False, abspath=False, f_ok=False):
+def valid_path(arg, expanduser=False, abspath=False, f_ok=False, strip=False):
     name = ("accessible path" if f_ok else "path")
     if len(str(arg).strip()) == 0:
         arg = None
-    arg = _tools.not_none(arg, name)
+    arg = _tools.not_none_string(arg, name, strip)
     if expanduser:
         arg = os.path.expanduser(arg)
     if abspath:
@@ -19,11 +19,12 @@ def valid_path(arg, expanduser=False, abspath=False, f_ok=False):
     return arg
 
 
-def valid_filename(arg):
+@_tools.add_lambda_maker
+def valid_filename(arg, strip=False):
     # http://en.wikipedia.org/wiki/Filename#Comparison_of_filename_limitations
     assert os.name == "posix", "This validator is not implemented for %s" % (os.name)
     name = "filename"
-    arg = os.path.normpath(_tools.not_none(arg, name))
+    arg = os.path.normpath(_tools.not_none_string(arg, name, strip))
     if arg == "." or arg == "..":
         _tools.raise_error(arg, name)
     return _tools.check_re_match(arg, name, r"^[^/\0]+$")

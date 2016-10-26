@@ -4,17 +4,20 @@ from . import _tools
 
 
 # =====
-def valid_hex_string(arg):
-    return _tools.check_re_match(arg, "hex string", r"^[0-9a-fA-F]+$")
+@_tools.add_lambda_maker
+def valid_hex_string(arg, strip=False):
+    return _tools.check_re_match(arg, "hex string", r"^[0-9a-fA-F]+$", strip)
 
 
-def valid_uuid_string(arg):
+@_tools.add_lambda_maker
+def valid_uuid_string(arg, strip=False):
     pattern = r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-    return _tools.check_re_match(arg, "UUID string", pattern)
+    return _tools.check_re_match(arg, "UUID string", pattern, strip)
 
 
-def valid_json_string(arg):
-    arg = _tools.not_none_strip(arg, "JSON string")
+@_tools.add_lambda_maker
+def valid_json_string(arg, strip=False):
+    arg = _tools.not_none_string(arg, "JSON string", strip)
     try:
         json.dumps(json.loads(arg))
         return arg

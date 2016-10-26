@@ -4,18 +4,19 @@ from . import _tools
 
 
 # =====
-def valid_bool(arg):
+@_tools.add_lambda_maker
+def valid_bool(arg, strip=False):
     true_args = ["1", "true", "yes"]
     false_args = ["0", "false", "no"]
     name = "bool (%r or %r)" % (true_args, false_args)
-    arg = _tools.not_none_strip(arg, name).lower()
+    arg = _tools.not_none_string(arg, name, strip).lower()
     arg = _tools.check_in_list(arg, name, true_args + false_args)
     return (arg in true_args)
 
 
 @_tools.add_lambda_maker
-def valid_number(arg, min=None, max=None, type=int):  # pylint: disable=redefined-builtin
-    arg = _tools.not_none_strip(arg, type.__name__)
+def valid_number(arg, min=None, max=None, type=int, strip=False):  # pylint: disable=redefined-builtin
+    arg = _tools.not_none_string(arg, type.__name__, strip)
     try:
         arg = type(arg)  # pylint: disable=redefined-variable-type
     except Exception:
@@ -37,9 +38,9 @@ def valid_in_list(arg, variants, subval=None):
 
 
 @_tools.add_lambda_maker
-def valid_string_list(arg, delim=r"[,\t ]+", subval=None):
+def valid_string_list(arg, delim=r"[,\t ]+", subval=None, strip=False):
     if not isinstance(arg, (list, tuple)):
-        arg = _tools.not_none_strip(arg, "string list")
+        arg = _tools.not_none_string(arg, "string list", strip)
         arg = list(filter(None, re.split(delim, arg)))  # pylint: disable=redefined-variable-type
         if subval is not None:
             arg = list(map(subval, arg))
@@ -47,8 +48,8 @@ def valid_string_list(arg, delim=r"[,\t ]+", subval=None):
 
 
 @_tools.add_lambda_maker
-def valid_empty(arg, subval=None):
-    if arg is None or (isinstance(arg, str) and len(arg.strip()) == 0):
+def valid_empty(arg, subval=None, strip=False):
+    if arg is None or (isinstance(arg, str) and len(arg.strip() if strip else arg) == 0):
         return None
     elif subval is None:
         return arg

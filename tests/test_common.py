@@ -127,17 +127,17 @@ def test_fail__valid_string_list__none():  # pylint: disable=invalid-name
 
 
 # =====
-def test_ok__valid_empty():
+def test_ok__valid_empty__strip():
     for (arg, retval) in [
         ("",   None),
         (" ",  None),
         (None, None),
         ("x",  "x"),
     ]:
-        assert valid_empty(arg) == retval
+        assert valid_empty(arg, strip=True) == retval
 
 
-def test_ok__valid_empty__validator():
+def test_ok__valid_empty__validator_strip():  # pylint: disable=invalid-name
     for (arg, retval) in [
         ("",   None),
         (" ",  None),
@@ -145,4 +145,4 @@ def test_ok__valid_empty__validator():
         (1,    1),
         ("1",  1),
     ]:
-        assert valid_empty(arg, int) == retval
+        assert valid_empty(arg, int, strip=True) == retval

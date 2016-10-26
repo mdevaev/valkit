@@ -18,8 +18,9 @@ def not_none(arg, name):
     return arg
 
 
-def not_none_strip(arg, name):
-    return str(not_none(arg, name)).strip()
+def not_none_string(arg, name, strip=False):
+    arg = str(not_none(arg, name))
+    return (arg.strip() if strip else arg)
 
 
 def check_chain(arg, name, validators):
@@ -31,8 +32,8 @@ def check_chain(arg, name, validators):
     raise_error(arg, name)
 
 
-def check_re_match(arg, name, pattern, limit=None):
-    arg = not_none_strip(arg, name)
+def check_re_match(arg, name, pattern, strip=False, limit=None):
+    arg = not_none_string(arg, name, strip)
     if limit is not None:
         arg = arg[:limit]
     if re.match(pattern, arg) is None:
