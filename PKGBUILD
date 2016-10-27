@@ -2,7 +2,7 @@
 # Author: Devaev Maxim <mdevaev@gmail.com>
 
 
-pkgname="valkit"
+pkgname="python-valkit"
 pkgver="0.1.1"
 pkgrel="1"
 pkgdesc="Yet another Python validators"
