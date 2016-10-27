@@ -3,7 +3,7 @@
 
 
 pkgname="python-valkit"
-pkgver="0.1.1"
+pkgver="0.1.2"
 pkgrel="1"
 pkgdesc="Yet another Python validators"
 arch=("any")
