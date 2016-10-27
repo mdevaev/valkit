@@ -10,7 +10,7 @@ if __name__ == "__main__":
         license="LGPLv3",
         author="Devaev Maxim",
         author_email="mdevaev@gmail.com",
-        description="The set of validators",
+        description="Yet another Python validators",
         platforms="any",
 
         packages=[
