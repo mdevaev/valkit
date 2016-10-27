@@ -5,7 +5,7 @@ import setuptools
 if __name__ == "__main__":
     setuptools.setup(
         name="valkit",
-        version="0.1.0",
+        version="0.1.1",
         url="https://github.com/mdevaev/valkit",
         license="LGPLv3",
         author="Devaev Maxim",
