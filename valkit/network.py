@@ -6,7 +6,7 @@ from . import _tools
 # =====
 @_tools.add_lambda_maker
 def valid_ip_or_host(arg, strip=False):
-    name = "IPv4/IPv6 address or RFC-1123 hostname",
+    name = "IPv4/IPv6 address or RFC-1123 hostname"
     return _tools.check_chain(
         arg=_tools.not_none_string(arg, name, strip),
         name=name,
@@ -19,7 +19,7 @@ def valid_ip_or_host(arg, strip=False):
 
 @_tools.add_lambda_maker
 def valid_ip(arg, strip=False):
-    name = "IPv4/6 address",
+    name = "IPv4/6 address"
     return _tools.check_chain(
         arg=_tools.not_none_string(arg, name, strip),
         name=name,

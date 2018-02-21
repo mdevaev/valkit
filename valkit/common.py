@@ -18,7 +18,7 @@ def valid_bool(arg, strip=False):
 def valid_number(arg, min=None, max=None, type=int, strip=False):  # pylint: disable=redefined-builtin
     arg = _tools.not_none_string(arg, type.__name__, strip)
     try:
-        arg = type(arg)  # pylint: disable=redefined-variable-type
+        arg = type(arg)
     except Exception:
         _tools.raise_error(arg, type.__name__)
 
@@ -41,7 +41,7 @@ def valid_in_list(arg, variants, subval=None):
 def valid_string_list(arg, delim=r"[,\t ]+", subval=None, strip=False):
     if not isinstance(arg, (list, tuple)):
         arg = _tools.not_none_string(arg, "string list", strip)
-        arg = list(filter(None, re.split(delim, arg)))  # pylint: disable=redefined-variable-type
+        arg = list(filter(None, re.split(delim, arg)))
         if subval is not None:
             arg = list(map(subval, arg))
     return arg
@@ -49,7 +49,7 @@ def valid_string_list(arg, delim=r"[,\t ]+", subval=None, strip=False):
 
 @_tools.add_lambda_maker
 def valid_empty(arg, subval=None, strip=False):
-    if arg is None or (isinstance(arg, str) and len(arg.strip() if strip else arg) == 0):
+    if arg is None or (isinstance(arg, str) and len(arg.strip() if strip else arg) == 0):  # pylint: disable=no-else-return
         return None
     elif subval is None:
         return arg

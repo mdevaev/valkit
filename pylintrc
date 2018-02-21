@@ -18,13 +18,14 @@ disable =
 	bad-continuation,
 	superfluous-parens,
 	bad-whitespace,
+	len-as-condition,
 
 [REPORTS]
 msg-template={symbol} -- {path}:{line}({obj}): {msg}
 include-ids=yes
 
 [FORMAT]
-max-line-length=120
+max-line-length=130
 
 [BASIC]
 # List of builtins function names that should not be used, separated by a comma
