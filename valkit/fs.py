@@ -25,6 +25,6 @@ def valid_filename(arg, strip=False):
     assert os.name == "posix", "This validator is not implemented for %s" % (os.name)
     name = "filename"
     arg = os.path.normpath(_tools.not_none_string(arg, name, strip))
-    if arg == "." or arg == "..":
+    if arg in [".", ".."]:
         _tools.raise_error(arg, name)
     return _tools.check_re_match(arg, name, r"^[^/\0]+$")

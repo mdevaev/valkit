@@ -42,7 +42,7 @@ def test_ok__valid_object_path():
 
 
 def test_fail__valid_object_path():
-    for arg in [".object", "123object", "/object", "a.b.c." "a.1x.b"]:
+    for arg in [".object", "123object", "/object", "a.b.c.", "a.1x.b"]:
         print(arg)
         with pytest.raises(ValidatorError):
             valid_object_path(arg)
