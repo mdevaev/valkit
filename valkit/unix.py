@@ -1,22 +1,23 @@
 from typing import Any
 
-from . import _tools
+from . import check_re_match
+from . import add_validator_magic
 
 
 # =====
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_username(
     arg: Any,
     strip: bool=False,
 ) -> str:
 
-    return _tools.check_re_match(arg, "UNIX username", r"^[a-z_][a-z0-9_-]*$", strip)
+    return check_re_match(arg, "UNIX username", r"^[a-z_][a-z0-9_-]*$", strip)
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_groupname(
     arg: Any,
     strip: bool=False,
 ) -> str:
 
-    return _tools.check_re_match(arg, "UNIX groupname", r"^[a-z_][a-z0-9_-]*$", strip)
+    return check_re_match(arg, "UNIX groupname", r"^[a-z_][a-z0-9_-]*$", strip)

@@ -7,11 +7,15 @@ from typing import Optional
 from typing import Union
 from typing import Any
 
-from . import _tools
+from . import ValidatorError
+from . import raise_validator
+from . import not_none_string
+from . import check_in_list
+from . import add_validator_magic
 
 
 # =====
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_bool(
     arg: Any,
     strip: bool=False,
@@ -20,12 +24,12 @@ def valid_bool(
     true_args = ["1", "true", "yes"]
     false_args = ["0", "false", "no"]
     name = "bool (%r or %r)" % (true_args, false_args)
-    arg = _tools.not_none_string(arg, name, strip).lower()
-    arg = _tools.check_in_list(arg, name, true_args + false_args)
+    arg = not_none_string(arg, name, strip).lower()
+    arg = check_in_list(arg, name, true_args + false_args)
     return (arg in true_args)
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_number(
     arg: Any,
     min: Union[int, float, None]=None,  # pylint: disable=redefined-builtin
@@ -34,20 +38,20 @@ def valid_number(
     strip: bool=False,
 ) -> Union[int, float]:
 
-    arg = _tools.not_none_string(arg, type.__name__, strip)
+    arg = not_none_string(arg, type.__name__, strip)
     try:
         arg = type(arg)
     except Exception:
-        _tools.raise_error(arg, type.__name__)
+        raise_validator(arg, type.__name__)
 
     if min is not None and arg < min:
-        raise _tools.ValidatorError("The argument '%s' must be greater or equial than %s" % (arg, min))
+        raise ValidatorError("The argument '%s' must be greater or equial than %s" % (arg, min))
     if max is not None and arg > max:
-        raise _tools.ValidatorError("The argument '%s' must be lesser or equal then %s" % (arg, max))
+        raise ValidatorError("The argument '%s' must be lesser or equal then %s" % (arg, max))
     return arg
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_in_list(
     arg: Any,
     variants: List,
@@ -57,10 +61,10 @@ def valid_in_list(
     variants = list(variants)
     if subval is not None:
         arg = subval(arg)
-    return _tools.check_in_list(arg, "item of list %r" % (variants), variants)
+    return check_in_list(arg, "item of list %r" % (variants), variants)
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_string_list(
     arg: Any,
     delim: str=r"[,\t ]+",
@@ -69,14 +73,14 @@ def valid_string_list(
 ) -> List[str]:
 
     if not isinstance(arg, (list, tuple)):
-        arg = _tools.not_none_string(arg, "string list", strip)
+        arg = not_none_string(arg, "string list", strip)
         arg = list(filter(None, re.split(delim, arg)))
         if subval is not None:
             arg = list(map(subval, arg))
     return arg
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_empty(
     arg: Any,
     subval: Optional[Callable[[Any], Any]]=None,

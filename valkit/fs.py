@@ -2,11 +2,14 @@ import os
 
 from typing import Any
 
-from . import _tools
+from . import raise_validator
+from . import not_none_string
+from . import check_re_match
+from . import add_validator_magic
 
 
 # =====
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_path(
     arg: Any,
     expanduser: bool=False,
@@ -18,17 +21,17 @@ def valid_path(
     name = ("accessible path" if f_ok else "path")
     if len(str(arg).strip()) == 0:
         arg = None
-    arg = _tools.not_none_string(arg, name, strip)
+    arg = not_none_string(arg, name, strip)
     if expanduser:
         arg = os.path.expanduser(arg)
     if abspath:
         arg = os.path.abspath(arg)
     if f_ok and not os.access(arg, os.F_OK):
-        _tools.raise_error(arg, name)
+        raise_validator(arg, name)
     return arg
 
 
-@_tools.add_lambda_maker
+@add_validator_magic
 def valid_filename(
     arg: Any,
     strip: bool=False,
@@ -37,7 +40,7 @@ def valid_filename(
     # http://en.wikipedia.org/wiki/Filename#Comparison_of_filename_limitations
     assert os.name == "posix", "This validator is not implemented for %s" % (os.name)
     name = "filename"
-    arg = os.path.normpath(_tools.not_none_string(arg, name, strip))
+    arg = os.path.normpath(not_none_string(arg, name, strip))
     if arg in [".", ".."]:
-        _tools.raise_error(arg, name)
-    return _tools.check_re_match(arg, name, r"^[^/\0]+$")
+        raise_validator(arg, name)
+    return check_re_match(arg, name, r"^[^/\0]+$")
