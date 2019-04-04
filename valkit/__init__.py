@@ -95,8 +95,12 @@ def check_iterable(
 
 
 def add_validator_magic(validator):  # type: ignore
-    def make(*args, **kwargs):  # type: ignore
-        return (lambda arg: validator(arg, *args, **kwargs))
+    def make(*args, ig=None, **kwargs):  # type: ignore
+        if ig is None:
+            partial = (lambda arg: validator(arg, *args, **kwargs))
+        else:
+            partial = (lambda arg: validator(arg, *args, **kwargs)[ig])
+        return partial
 
     validator.mk = make
     return validator
