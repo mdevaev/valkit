@@ -1,11 +1,20 @@
 import os
 
+from typing import Any
+
 from . import _tools
 
 
 # =====
 @_tools.add_lambda_maker
-def valid_path(arg, expanduser=False, abspath=False, f_ok=False, strip=False):
+def valid_path(
+    arg: Any,
+    expanduser: bool=False,
+    abspath: bool=False,
+    f_ok: bool=False,
+    strip: bool=False,
+) -> str:
+
     name = ("accessible path" if f_ok else "path")
     if len(str(arg).strip()) == 0:
         arg = None
@@ -20,7 +29,11 @@ def valid_path(arg, expanduser=False, abspath=False, f_ok=False, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_filename(arg, strip=False):
+def valid_filename(
+    arg: Any,
+    strip: bool=False,
+) -> str:
+
     # http://en.wikipedia.org/wiki/Filename#Comparison_of_filename_limitations
     assert os.name == "posix", "This validator is not implemented for %s" % (os.name)
     name = "filename"

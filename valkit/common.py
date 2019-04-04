@@ -1,11 +1,22 @@
 import re
 
+from typing import List
+from typing import Type
+from typing import Callable
+from typing import Optional
+from typing import Union
+from typing import Any
+
 from . import _tools
 
 
 # =====
 @_tools.add_lambda_maker
-def valid_bool(arg, strip=False):
+def valid_bool(
+    arg: Any,
+    strip: bool=False,
+) -> bool:
+
     true_args = ["1", "true", "yes"]
     false_args = ["0", "false", "no"]
     name = "bool (%r or %r)" % (true_args, false_args)
@@ -15,7 +26,14 @@ def valid_bool(arg, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_number(arg, min=None, max=None, type=int, strip=False):  # pylint: disable=redefined-builtin
+def valid_number(
+    arg: Any,
+    min: Union[int, float, None]=None,  # pylint: disable=redefined-builtin
+    max: Union[int, float, None]=None,  # pylint: disable=redefined-builtin
+    type: Union[Type[int], Type[float]]=int,  # pylint: disable=redefined-builtin
+    strip: bool=False,
+) -> Union[int, float]:
+
     arg = _tools.not_none_string(arg, type.__name__, strip)
     try:
         arg = type(arg)
@@ -30,7 +48,12 @@ def valid_number(arg, min=None, max=None, type=int, strip=False):  # pylint: dis
 
 
 @_tools.add_lambda_maker
-def valid_in_list(arg, variants, subval=None):
+def valid_in_list(
+    arg: Any,
+    variants: List,
+    subval: Optional[Callable[[Any], Any]]=None,
+) -> List:
+
     variants = list(variants)
     if subval is not None:
         arg = subval(arg)
@@ -38,7 +61,13 @@ def valid_in_list(arg, variants, subval=None):
 
 
 @_tools.add_lambda_maker
-def valid_string_list(arg, delim=r"[,\t ]+", subval=None, strip=False):
+def valid_string_list(
+    arg: Any,
+    delim: str=r"[,\t ]+",
+    subval: Optional[Callable[[Any], Any]]=None,
+    strip: bool=False,
+) -> List[str]:
+
     if not isinstance(arg, (list, tuple)):
         arg = _tools.not_none_string(arg, "string list", strip)
         arg = list(filter(None, re.split(delim, arg)))
@@ -48,7 +77,12 @@ def valid_string_list(arg, delim=r"[,\t ]+", subval=None, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_empty(arg, subval=None, strip=False):
+def valid_empty(
+    arg: Any,
+    subval: Optional[Callable[[Any], Any]]=None,
+    strip: bool=False
+) -> Any:
+
     if arg is None or (isinstance(arg, str) and len(arg.strip() if strip else arg) == 0):  # pylint: disable=no-else-return
         return None
     elif subval is None:

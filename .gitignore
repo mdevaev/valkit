@@ -4,6 +4,7 @@
 /dist/
 /valkit.egg-info/
 /.pytest_cache/
+/.mypy_cache/
 /.tox/
 /.cache/
 /.coverage

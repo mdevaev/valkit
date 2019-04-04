@@ -1,13 +1,21 @@
 import socket
 
+from typing import Tuple
+from typing import Optional
+from typing import Any
+
 from . import _tools
 
 
 # =====
 @_tools.add_lambda_maker
-def valid_ip_or_host(arg, strip=False):
+def valid_ip_or_host(
+    arg: Any,
+    strip: bool=False,
+) -> Tuple[str, Optional[socket.AddressFamily]]:  # pylint: disable=no-member
+
     name = "IPv4/IPv6 address or RFC-1123 hostname"
-    return _tools.check_chain(
+    return _tools.check_any(
         arg=_tools.not_none_string(arg, name, strip),
         name=name,
         validators=[
@@ -18,9 +26,13 @@ def valid_ip_or_host(arg, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_ip(arg, strip=False):
+def valid_ip(
+    arg: Any,
+    strip: bool=False,
+) -> Tuple[str, socket.AddressFamily]:  # pylint: disable=no-member
+
     name = "IPv4/6 address"
-    return _tools.check_chain(
+    return _tools.check_any(
         arg=_tools.not_none_string(arg, name, strip),
         name=name,
         validators=[
@@ -31,7 +43,11 @@ def valid_ip(arg, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_rfc_host(arg, strip=False):
+def valid_rfc_host(
+    arg: Any,
+    strip: bool=False,
+) -> str:
+
     # http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
     pattern = r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*" \
               r"([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
@@ -39,7 +55,11 @@ def valid_rfc_host(arg, strip=False):
 
 
 @_tools.add_lambda_maker
-def valid_port(arg, strip=False):
+def valid_port(
+    arg: Any,
+    strip: bool=False,
+) -> int:
+
     name = "TCP/UDP portnumber"
     arg = _tools.not_none_string(arg, name, strip)
     try:
