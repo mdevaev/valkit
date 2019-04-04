@@ -2,7 +2,6 @@ import re
 
 from typing import List
 from typing import Callable
-from typing import TypeVar
 from typing import NoReturn
 from typing import Optional
 from typing import Any
@@ -95,14 +94,8 @@ def check_iterable(
     return list(map(item_validator, iterable_validator(arg)))
 
 
-_ValidatorT = TypeVar("_ValidatorT", bound=Callable)
-
-
-def add_validator_magic(
-    validator: _ValidatorT,
-) -> _ValidatorT:
-
-    def make(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
+def add_validator_magic(validator):  # type: ignore
+    def make(*args, **kwargs):  # type: ignore
         return (lambda arg: validator(arg, *args, **kwargs))
 
     validator.mk = make
